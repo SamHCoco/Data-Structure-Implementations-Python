@@ -1,3 +1,7 @@
+
+# ------------------------------------------ STACK -----------------------------------------------------
+
+
 class Stack:
 
     def __init__(self):
@@ -49,6 +53,8 @@ class Stack:
         else:
             return len(self.stack)
 
+# ------------------------------------------ QUEUE -----------------------------------------------------
+
 
 class Queue:
 
@@ -91,5 +97,47 @@ class Queue:
     def print(self):
         """Displays the queue to the user"""
         print("QUEUE: {}".format(self.queue))
+
+# ------------------------------------------ LINKEDLIST -----------------------------------------------------
+
+
+class LinkedList:
+
+    class Node:
+
+        def __init__(self, data=None):
+            self.data = data
+            self.node = None
+
+    def __init__(self):
+        self.head = self.Node()
+
+    def add(self, element):
+        """Adds an element to the linkedlist.
+
+        args:
+        element - the element to be added to linkedlist"""
+        # adding first element to the list
+        if self.head.data is None:
+            self.head.data = element
+            self.head.node = self.Node()
+        else:
+            # when head node already has data
+            current_node = self.head.node
+            while current_node is not None:
+                if current_node.node is None:
+                    current_node.data = element
+                    current_node.node = self.Node()
+                    break
+                else:
+                    current_node = current_node.node
+
+    def print(self):
+        """Displays the values of the linkedlist to the user."""
+        if self.head is not None:
+            current_node = self.head
+            while current_node is not None:
+                print("{}| ".format(current_node.data), end='')
+                current_node = current_node.node
 
 
