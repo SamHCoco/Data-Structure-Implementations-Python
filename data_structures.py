@@ -111,6 +111,7 @@ class LinkedList:
 
     def __init__(self):
         self.head = self.Node()
+        self.size = 0
 
     def add(self, element):
         """Adds an element to the linkedlist.
@@ -121,23 +122,61 @@ class LinkedList:
         if self.head.data is None:
             self.head.data = element
             self.head.node = self.Node()
+            self.size += 1
         else:
             # when head node already has data
             current_node = self.head.node
             while current_node is not None:
-                if current_node.node is None:
+                if current_node.data is None:
                     current_node.data = element
                     current_node.node = self.Node()
+                    self.size += 1
                     break
                 else:
                     current_node = current_node.node
 
-    def print(self):
-        """Displays the values of the linkedlist to the user."""
+    def remove(self, index):
+        """Removes an element of linkedlist at a selected index.
+
+        args:
+        index - the position of the element to be removed
+        """
+        if index > self.size - 1:  # size - 1 because indexing starts at zero
+            print("ERROR: Index {} does not exist".format(index))
+        else:
+            #  deletes node at start of linkedlist
+            position = 0
+            if index == 0:
+                self.head = self.head.node
+            #  deletes node at end of linkedlist
+            elif index == self.size - 1:
+                current_node = self.head
+                while position < self.size - 2:
+                    current_node = current_node.node
+                    position += 1
+                current_node.node = self.Node()  # effectively deletes the last node
+            else:
+                #  deletes any nodes between start and end
+                current_node = self.head
+                while position != index - 1:
+                    current_node = current_node.node
+                    position += 1
+                new_node = current_node.node.node
+                del current_node.node
+                current_node.node = new_node
+
+    def __str__(self):
+        """Displays the linkedlist to the user.
+
+        returns: The LinkedList as a string
+        """
+        linked_list = ""
         if self.head is not None:
             current_node = self.head
-            while current_node is not None:
-                print("{}| ".format(current_node.data), end='')
-                current_node = current_node.node
-
+            while current_node.node is not None:
+                if current_node.data is not None:
+                    linked_list = linked_list + str(current_node.data) + ", "
+                    current_node = current_node.node
+            linked_list = linked_list[:len(linked_list) - 2]
+            return "LINKEDLIST: " + "[" + linked_list + "]"
 
