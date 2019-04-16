@@ -134,16 +134,37 @@ class LinkedList:
                 else:
                     current_node = current_node.node
 
+    def get(self, index):
+        """Returns the element of linkedlist at the specified index.
+
+        returns: element at specified index, or null if list empty or index is invalid
+        """
+        if self.is_index_valid(index):
+            if not self.is_empty():
+                position = 0
+                current_node = self.head
+                while position != index:
+                    current_node = current_node.node
+                    position += 1
+                print("LinkedList[{}] = {}".format(index, current_node.data))
+                return current_node.data
+            else:
+                print("LinkedList Empty")
+                return None
+        else:
+            print("LinkedList Error: index [{}] invalid".format(index))
+            return None
+
     def remove(self, index):
         """Removes an element of linkedlist at a selected index.
 
         args:
         index - the position of the element to be removed
         """
-        if self.size == 0:
-            print("Cannot remove index [{}]: LinkedList empty".format(index))
-        elif index < 0 or index > self.size - 1:  # size - 1 because indexing starts at zero
-            print("ERROR: Index {} does not exist".format(index))
+        if self.is_empty():
+            print("Cannot remove index[{}]: LinkedList empty".format(index))
+        elif not self.is_index_valid(index):
+            print("ERROR: Index[{}] does not exist".format(index))
         else:
             position = 0
             #  deletes node at start of linkedlist
@@ -169,10 +190,52 @@ class LinkedList:
                 current_node.node = new_node
                 self.size -= 1
 
+    def search(self, element):
+        """Searches for specified element in linkedlist.
+
+        returns: the index of first element that matches search,
+        or null if element not found
+        """
+        if not self.is_empty():
+            current_node = self.head
+            index = 0
+            found = False
+            while not found:
+                if current_node.data == element:
+                    print("{} found at index[{}]".format(element, index))
+                    found = True
+                else:
+                    if current_node.node is not None:
+                        current_node = current_node.node
+                        index += 1
+                    else:
+                        print("{} not found".format(element))
+                        return None
+
+    def is_index_valid(self, index):
+        """Checks whether an index is valid.
+
+        returns: true if index valid, false otherwise
+        """
+        if 0 <= index <= self.size - 1:
+            return True
+        else:
+            return False
+
+    def is_empty(self):
+        """Checks whether linkedlist is empty.
+
+        returns: true if linkedlist is empty, false otherwise
+        """
+        if self.size == 0:
+            return True
+        else:
+            return False
+
     def __str__(self):
         """Displays the linkedlist to the user.
 
-        returns: The LinkedList as a string
+        returns: the linkedlist as a string list
         """
         linked_list = ""
         if self.head is not None:
