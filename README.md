@@ -82,11 +82,18 @@ Stacks are another collection type data structure but are organized along the **
              self.print()
              return result
  ```
+ ### Time Complexity (Worst Case)
+* **Access (pop)**:
+    * **O(1)** - Constant time if the element being accessed is at the top of the stack.
+    * **O(n)** - It takes linear time to access an arbitrary element not at the top of the stack. For example, in the worst case, to access the last element in a queue of *n* elements the deque operation would have to be applied *n* times.
+* **Insertion (push):**
+ * **O(1)** - Constant time. A strength of Stacks: no matter how large the elements in the stack, adding an element the top of a stack will always take constant time.  
 
 * ## LinkedList
 LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node is None (or null) indicating to end of list. **LinkedLists have 3 key methods:**
  * **add(e)** - Adds element e to the linkedlist.
  * **remove(index)** - Removes the element at the specified index from the linkedlist.
+
 
  My implementation of the **Singly LinkedList** data structure in Python:
  ```Python
@@ -158,3 +165,9 @@ LinkedLists are data structures made up of **nodes** which contain data and poin
                  current_node.node = new_node
                  self.size -= 1
  ```   
+
+ ### Time Complexity (Worst Case)
+* **Access**:
+    * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
+* **Insertion (add):**
+   * **O(n)** -  Inserting an element into a linkedlist takes linear time in the time worst case. The insertion itself takes *O(1)* constant time but having to traverse nodes to access the node required to complete the insertion takes *O(n)* linear time.
