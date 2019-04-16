@@ -121,15 +121,14 @@ class LinkedList:
         # adding first element to the list
         if self.head.data is None:
             self.head.data = element
-            self.head.node = self.Node()
             self.size += 1
         else:
             # when head node already has data
-            current_node = self.head.node
+            current_node = self.head
             while current_node is not None:
-                if current_node.data is None:
-                    current_node.data = element
+                if current_node.node is None:
                     current_node.node = self.Node()
+                    current_node.node.data = element
                     self.size += 1
                     break
                 else:
@@ -141,20 +140,24 @@ class LinkedList:
         args:
         index - the position of the element to be removed
         """
-        if index > self.size - 1:  # size - 1 because indexing starts at zero
+        if self.size == 0:
+            print("Cannot remove index [{}]: LinkedList empty".format(index))
+        elif index < 0 or index > self.size - 1:  # size - 1 because indexing starts at zero
             print("ERROR: Index {} does not exist".format(index))
         else:
-            #  deletes node at start of linkedlist
             position = 0
+            #  deletes node at start of linkedlist
             if index == 0:
                 self.head = self.head.node
+                self.size -= 1
             #  deletes node at end of linkedlist
             elif index == self.size - 1:
                 current_node = self.head
                 while position < self.size - 2:
                     current_node = current_node.node
                     position += 1
-                current_node.node = self.Node()  # effectively deletes the last node
+                current_node.node = None  # deletes the last node
+                self.size -= 1
             else:
                 #  deletes any nodes between start and end
                 current_node = self.head
@@ -164,6 +167,7 @@ class LinkedList:
                 new_node = current_node.node.node
                 del current_node.node
                 current_node.node = new_node
+                self.size -= 1
 
     def __str__(self):
         """Displays the linkedlist to the user.
@@ -173,10 +177,8 @@ class LinkedList:
         linked_list = ""
         if self.head is not None:
             current_node = self.head
-            while current_node.node is not None:
-                if current_node.data is not None:
-                    linked_list = linked_list + str(current_node.data) + ", "
-                    current_node = current_node.node
+            while current_node is not None:
+                linked_list = linked_list + str(current_node.data) + ", "
+                current_node = current_node.node
             linked_list = linked_list[:len(linked_list) - 2]
             return "LINKEDLIST: " + "[" + linked_list + "]"
-
