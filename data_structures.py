@@ -245,3 +245,46 @@ class LinkedList:
                 current_node = current_node.node
             linked_list = linked_list[:len(linked_list) - 2]
             return "LINKEDLIST: " + "[" + linked_list + "]"
+
+
+class BinarySearchTree:
+
+    class Node:
+
+        def __init__(self, data=None):
+            self.left_child = None
+            self.data = data
+            self.right_child = None
+
+    def __init__(self, data):
+        # creates initial root node and sets root node value
+        if type(data) in (int, float):
+            self.root = self.Node(data)
+        else:
+            print("BST INSERTION ERROR: {} is non-numeric".format(data))
+
+    def insert(self, data):
+        """Inserts data value into the Binary Search Tree.
+
+        args:
+        data - the number to be inserted into the tree
+        """
+        current_node = self.root
+        inserted = False
+        while not inserted:
+            if data > current_node.data and current_node.right_child is None:
+                current_node.right_child = self.Node()
+                current_node.right_child.data = data
+                inserted = True
+            elif data < current_node.data and current_node.left_child is None:
+                current_node.left_child = self.Node()
+                current_node.left_child.data = data
+                inserted = True
+            elif data == current_node.data and current_node.left_child is None:
+                current_node.left_child = self.Node()
+                current_node.left_child.data = data
+                inserted = True
+            elif data > current_node.data and current_node.right_child is not None:
+                current_node = current_node.right_child
+            elif data < current_node.data and current_node.left_child is not None:
+                current_node = current_node.left_child
