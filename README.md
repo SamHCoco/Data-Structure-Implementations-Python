@@ -41,9 +41,9 @@ This implementation of a Queue uses Python's built in *list* data structure.
  ```
 
  ### Time Complexity (Worst Case)
- * **Access (deque)**:
+ * **Access (dequeue)**:
     * **O(1)** - Constant time if the element being accessed is at the front of the queue.
-    * **O(n)** - It takes linear time to access an arbitrary element in the queue not at the front. For example, in the worst case, to access the last element in a queue of *n* elements the deque operation would have to be applied *n* times.
+    * **O(n)** - It takes linear time to access an arbitrary element in the queue that is not at the front of the queue. For example, in the worst case, to access the last element in a queue of *n* elements, the deque operation would have to be applied *n* times.
 
 * **Insertion (enqueue):**
    * **O(1)** - Constant time. A strength of Queues: no matter how large the elements in the queue, inserting any element into a queue will take constant time.  
@@ -85,13 +85,15 @@ Stacks are another collection type data structure but are organized along the **
  ### Time Complexity (Worst Case)
 * **Access (pop)**:
     * **O(1)** - Constant time if the element being accessed is at the top of the stack.
-    * **O(n)** - It takes linear time to access an arbitrary element not at the top of the stack. For example, in the worst case, to access the last element in a queue of *n* elements the deque operation would have to be applied *n* times.
+    * **O(n)** - It takes linear time to access an arbitrary element not at the top of the stack. For example, in the worst case, to access the last element in a stack of *n* elements, the pop operation would have to be applied *n* times.
 * **Insertion (push):**
- * **O(1)** - Constant time. A strength of Stacks: no matter how large the elements in the stack, adding an element the top of a stack will always take constant time.  
+ * **O(1)** - Constant time. A strength of stacks: no matter how large the stack, adding an element to the top of a stack will always take constant time.  
 
 * ## LinkedList
-LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node is None (or null) indicating to end of list. **LinkedLists have 3 key methods:**
- * **add(e)** - Adds element e to the linkedlist.
+LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node is None (or null) indicating to end of list. **LinkedLists have 4 key methods:**
+ * **add(e)** - Adds element *e* to the linkedlist.
+ * **get(index)** - Returns the element of the linkedlist at specified index.
+ * **search(e)** - Searches the linkedlist for element *e*.
  * **remove(index)** - Removes the element at the specified index from the linkedlist.
 
 
