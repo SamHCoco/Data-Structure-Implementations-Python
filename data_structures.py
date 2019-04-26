@@ -273,18 +273,16 @@ class BinarySearchTree:
         inserted = False
         while not inserted:
             if data > current_node.data and current_node.right_child is None:
-                current_node.right_child = self.Node()
-                current_node.right_child.data = data
+                current_node.right_child = self.Node(data)
                 inserted = True
             elif data < current_node.data and current_node.left_child is None:
-                current_node.left_child = self.Node()
-                current_node.left_child.data = data
+                current_node.left_child = self.Node(data)
                 inserted = True
             elif data == current_node.data and current_node.left_child is None:
-                current_node.left_child = self.Node()
-                current_node.left_child.data = data
+                current_node.left_child = self.Node(data)
                 inserted = True
             elif data > current_node.data and current_node.right_child is not None:
                 current_node = current_node.right_child
             elif data < current_node.data and current_node.left_child is not None:
                 current_node = current_node.left_child
+
