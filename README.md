@@ -90,7 +90,7 @@ Stacks are another collection type data structure but are organized along the **
  * **O(1)** - Constant time. A strength of stacks: no matter how large the stack, adding an element to the top of a stack will always take constant time.  
 
 * ## LinkedList
-LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node is None (or null) indicating to end of list. **LinkedLists have 4 key methods:**
+LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node points to None indicating the end of the linkedlist. **LinkedLists have 4 key methods:**
  * **add(e)** - Adds element *e* to the linkedlist.
  * **get(index)** - Returns the element of the linkedlist at specified index.
  * **search(e)** - Searches the linkedlist for element *e*.
@@ -215,3 +215,62 @@ LinkedLists are data structures made up of **nodes** which contain data and poin
     * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
 * **Insertion (add):**
    * **O(n)** -  Inserting an element into a linkedlist takes linear time in the time worst case. The insertion itself takes *O(1)* constant time but having to traverse nodes to access the node required to complete the insertion takes *O(n)* linear time.
+
+## Non-Linear Data Structures:
+ * ## Binary Search Tree
+ Binary Search Trees are tree data structures which satisfy the following conditions:
+  * Any node can either have **no children or up to a maximum of 2 children** (i.e. any given node can have 0, 1 or 2 children), with the top node being the **root node**.
+  * The left subtree of any node must have values which are less than the value of that node, while the right subtree of the node has values which are greater. More simply, this means that **the left child of any node is always less than its parent and the right child greater than its parent**.  
+
+  Binary Search Trees have **5 basic methods**:
+  * insert(value)
+  * search(value)
+  * preorder_traversal()
+  * inorder_traversal()
+  * postorder_traversal()
+
+My implementation of a Binary Search Tree using a linked data structure approach:
+```Python
+class BinarySearchTree:
+
+  class Node:
+
+      def __init__(self, data=None):
+          self.left_child = None
+          self.data = data
+          self.right_child = None
+
+  def __init__(self, data):
+      # creates initial root node and sets root node value
+      if type(data) in (int, float):
+          self.root = self.Node(data)
+          self.size = 0
+      else:
+          print("BST INSERTION ERROR: {} is non-numeric".format(data))
+
+  def insert(self, data):
+      """Inserts data value into the Binary Search Tree.
+
+      args:
+      data - the number to be inserted into the tree
+      """
+      current_node = self.root
+      inserted = False
+      while not inserted:
+          if data > current_node.data and current_node.right_child is None:
+              current_node.right_child = self.Node(data)
+              inserted = True
+              self.size += 1
+          elif data < current_node.data and current_node.left_child is None:
+              current_node.left_child = self.Node(data)
+              inserted = True
+              self.size += 1
+          elif data == current_node.data and current_node.left_child is None:
+              current_node.left_child = self.Node(data)
+              inserted = True
+              self.size += 1
+          elif data > current_node.data and current_node.right_child is not None:
+              current_node = current_node.right_child
+          elif data < current_node.data and current_node.left_child is not None:
+              current_node = current_node.left_child
+```
