@@ -258,8 +258,9 @@ class BinarySearchTree:
 
     def __init__(self, data):
         # creates initial root node and sets root node value
-        if type(data) in (int, float):
+        if BinarySearchTree.is_valid_input(data):
             self.root = self.Node(data)
+            self.size = 0
         else:
             print("BST INSERTION ERROR: {} is non-numeric".format(data))
 
@@ -269,20 +270,103 @@ class BinarySearchTree:
         args:
         data - the number to be inserted into the tree
         """
+        if not BinarySearchTree.is_valid_input(data):
+            return None
+
         current_node = self.root
         inserted = False
         while not inserted:
             if data > current_node.data and current_node.right_child is None:
                 current_node.right_child = self.Node(data)
                 inserted = True
+                self.size += 1
             elif data < current_node.data and current_node.left_child is None:
                 current_node.left_child = self.Node(data)
                 inserted = True
+                self.size += 1
             elif data == current_node.data and current_node.left_child is None:
                 current_node.left_child = self.Node(data)
                 inserted = True
+                self.size += 1
             elif data > current_node.data and current_node.right_child is not None:
                 current_node = current_node.right_child
             elif data < current_node.data and current_node.left_child is not None:
                 current_node = current_node.left_child
 
+    def search(self, search_value):
+        """Searches for specified value in the Binary Search Tree.
+
+        args:
+        search_value - the value to be found in the Binary Search Tree
+
+        returns: true if the value found, false otherwise, or None if user input invalid
+        """
+        if not BinarySearchTree.is_valid_input(search_value):
+            return None
+
+        current_node = self.root
+        found = False
+        while not found:
+            if current_node.data == search_value:
+                found = True
+            elif search_value > current_node.data:
+                current_node = current_node.right_child
+            elif search_value < current_node.data:
+                current_node = current_node.left_child
+            if current_node is None:
+                print("'{}' not found in Binary Search Tree".format(search_value))
+                return False
+        print("'{}' found in Binary Search Tree".format(search_value))
+        return True
+
+    def preorder_traversal(self):
+        """Traverses BST in preorder fashion (Root, left, right)."""
+        current_node = self.root
+        values = []  # the values that are read from the traversal
+        binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+        traversed = False
+        while not traversed:
+            if current_node.left_child is not None and current_node.right_child is not None:
+                if current_node not in binary_nodes:
+                    binary_nodes.append(current_node)
+                    values.append(current_node.data)
+                    current_node = current_node.left_child
+                else:
+                    current_node = current_node.right_child
+            elif current_node.right_child is None and current_node.left_child is not None:
+                values.append(current_node.data)
+                current_node = current_node.left_child
+            elif current_node.left_child is None and current_node.right_child is not None:
+                values.append(current_node.data)
+                current_node = current_node.right_child
+            elif current_node.left_child is None and current_node.right_child is None:
+                current_node = binary_nodes.pop()
+            if len(binary_nodes) == 0:
+                traversed = True
+        print(values)
+
+    def size(self):
+        """Determines the number of nodes (size) of the Binary Search Tree.
+
+        returns: the size of the binary search tree (int)
+        """
+        print("BST SIZE:{} nodes".format(self.size))
+        return self.size
+
+    @staticmethod
+    def is_valid_input(data):
+        """Checks whether user input is a number.
+
+        returns: true if user input is valid (a number), false otherwise
+        """
+        if type(data) in (int, float):
+            return True
+        else:
+            print("BST ERROR: Input '{}' invalid. Input must be numerical.".format(data))
+            return False
+
+t = BinarySearchTree(15)
+values = [10, 20, 8, 12, 17, 25]
+for x in values:
+    t.insert(x)
+t.preorder_traversal()
