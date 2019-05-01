@@ -354,7 +354,46 @@ class BinarySearchTree:
                     current_node = binary_nodes[len(binary_nodes) - 1]
             if counter == self.size + 1:
                 traversed = True
-        print(traverse_values)
+        print("BST PREORDER TRAVERSAL: {}".format(traverse_values))
+        return traverse_values
+
+    def inorder_traversal(self):
+        """Traverses the BST in inorder fashion(left, root, right).
+
+        returns: a list of inorder traversal
+        """
+        current_node = self.root
+        traverse_values = []  # the values that are read from the traversal
+        binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+        traverse_nodes = []
+        traversed = False
+        counter = 0
+        while not traversed:
+            if current_node.left_child is not None and current_node.right_child:
+                if current_node not in binary_nodes:
+                    binary_nodes.append(current_node)
+                    current_node = current_node.left_child
+                else:
+                    traverse_values.append(current_node.data)
+                    counter += 1
+                    current_node = current_node.right_child
+                    binary_nodes.pop()
+            elif current_node.left_child is not None and current_node.right_child is None:
+                traverse_nodes.append(current_node)
+                current_node = current_node.left_child
+            elif current_node.left_child is None and current_node.right_child is not None:
+                traverse_nodes.append(current_node)
+                current_node = current_node.right_child
+            elif current_node.left_child is None and current_node.right_child is None:
+                traverse_nodes.append(current_node)
+                while len(traverse_nodes) != 0:
+                    traverse_values.append(traverse_nodes.pop().data)
+                    counter += 1
+                if len(binary_nodes) != 0:
+                    current_node = binary_nodes[len(binary_nodes) - 1]
+            if counter == self.size + 1:
+                traversed = True
+        print("BST INORDER TRAVERSAL: {}".format(traverse_values))
         return traverse_values
 
     def size(self):
@@ -369,6 +408,8 @@ class BinarySearchTree:
     def _is_valid_input(data):
         """Checks whether user input is a number.
 
+        args:
+        data -- the user input to be validated
         returns: true if user input is valid (a number), false otherwise
         """
         if type(data) in (int, float):
@@ -376,3 +417,10 @@ class BinarySearchTree:
         else:
             print("BST ERROR: Input '{}' invalid. Input must be numerical.".format(data))
             return False
+
+# values = [9, 20, 7, 13, 17, 65, 3.14]
+# tree = BinarySearchTree(15)
+# for x in values:
+#     tree.insert(x)
+# tree.inorder_traversal()
+
