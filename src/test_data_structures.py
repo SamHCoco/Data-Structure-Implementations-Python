@@ -24,6 +24,12 @@ class Test(unittest.TestCase):
     def test_inorder_traversal(self):
         """Tests inorder traversal for Binary Search Tree."""
         expected_traversal_1 = [1, 6, 7, 9, 8, 10, 14, 20, 22, 11]
-        expected_traversal_2 = [-6, 10, 12, 20, 43, 65, 256]
+        expected_traversal_2 = [-3.14, 10, 12, 20, 43, 65, 256]
+        expected_traversal_3 = [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90]
+        values = [15, 50, 10, 22, 35, 70, 4, 12, 18, 24, 31, 44, 66, 90]
+        bst_3 = BinarySearchTree(25)
+        for x in values:
+            bst_3.insert(x)
         self.assertEqual(self.bst_1.inorder_traversal(), expected_traversal_1)
         self.assertEqual(self.bst_2.inorder_traversal(), expected_traversal_2)
+        self.assertEqual(bst_3.inorder_traversal(), expected_traversal_3)
