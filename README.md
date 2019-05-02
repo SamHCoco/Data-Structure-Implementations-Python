@@ -222,12 +222,9 @@ LinkedLists are data structures made up of **nodes** which contain data and poin
   * Any node can either have **no children or up to a maximum of 2 children** (i.e. any given node can have 0, 1 or 2 children), with the top node being the **root node**.
   * The left subtree of any node must have values which are less than the value of that node, while the right subtree of the node has values which are greater. More simply, this means that **the left child of any node is always less than its parent and the right child greater than its parent**.  
 
-  Binary Search Trees have **5 basic methods**:
-  * insert(value)
-  * search(value)
-  * preorder_traversal()
-  * inorder_traversal()
-  * postorder_traversal()
+  Binary Search Trees have **2 basic methods**:
+  * **insert(value)**
+  * **search(value)**
 
 My implementation of a Binary Search Tree using a linked data structure approach:
 ```Python
@@ -274,3 +271,125 @@ class BinarySearchTree:
           elif data < current_node.data and current_node.left_child is not None:
               current_node = current_node.left_child
 ```
+ ## Binary Search Tree Traversal
+ There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):
+ #### **Preorder**
+ With *preorder* traversal, nodes are visited in the following order:
+ 1. *Root*
+ 2. *Left subtree* - traversed in a preorder fashion.
+ 3. *Right subtree* - traversed in a preorder fashion.
+
+```Python
+def preorder_traversal(self):
+    """Traverses BST in preorder fashion (Root, left, right).
+
+    returns: a list of preorder traversal values
+    """
+    current_node = self.root
+    traverse_values = []  # the values that are read from the traversal
+    binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+    traversed = False
+    counter = 0
+    while not traversed:
+        if current_node.left_child is not None and current_node.right_child is not None:
+            if current_node not in binary_nodes:
+                binary_nodes.append(current_node)
+                traverse_values.append(current_node.data)
+                counter += 1
+                current_node = current_node.left_child
+            else:
+                current_node = current_node.right_child
+                binary_nodes.pop()
+
+        elif current_node.right_child is None and current_node.left_child is not None:
+            traverse_values.append(current_node.data)
+            counter += 1
+            current_node = current_node.left_child
+
+        elif current_node.left_child is None and current_node.right_child is not None:
+            traverse_values.append(current_node.data)
+            counter += 1
+            current_node = current_node.right_child
+
+        elif current_node.left_child is None and current_node.right_child is None:
+            traverse_values.append(current_node.data)
+            counter += 1
+            if len(binary_nodes) != 0:
+                current_node = binary_nodes[len(binary_nodes) - 1]
+        if counter == self.size + 1:
+            traversed = True
+    print("BST PREORDER TRAVERSAL: {}".format(traverse_values))
+    return traverse_values
+```
+#### **Inorder**
+   With *inorder* traversal, nodes are visited in the following order:
+   1. *Left subtree* - traversed in an inorder fashion.
+   2. *Root*
+   3. *Right subtree* - traversed in an inorder fashion.
+
+```Python
+def inorder_traversal(self):
+    """Traverses the BST in inorder fashion(left, root, right).
+
+    returns: a list of inorder traversal
+    """
+    current_node = self.root
+    traverse_values = []  # the values that are read from the traversal
+    binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+    zero_one_count = 0  # counts the nodes which only have one or no children
+    zero_one_array = []  # stores 'zero_one_count' values
+    traverse_nodes = []  # stores the traversed nodes
+    traversed = False
+    counter = 0
+    while not traversed:
+        if current_node.left_child is not None and current_node.right_child is not None:
+            if zero_one_count != 0:
+                zero_one_array.append(zero_one_count)
+                zero_one_count = 0
+
+            if current_node not in binary_nodes:
+                binary_nodes.append(current_node)
+                current_node = current_node.left_child
+            else:
+                traverse_values.append(current_node.data)
+                counter += 1
+                current_node = current_node.right_child
+                binary_nodes.pop()
+
+        elif current_node.left_child is not None and current_node.right_child is None:
+            traverse_nodes.append(current_node)
+            zero_one_count += 1
+            current_node = current_node.left_child
+
+        elif current_node.left_child is None and current_node.right_child is not None:
+            traverse_nodes.append(current_node)
+            zero_one_count += 1
+            current_node = current_node.right_child
+
+        elif current_node.left_child is None and current_node.right_child is None:
+            traverse_nodes.append(current_node)
+            zero_one_count += 1
+            zero_one_array.append(zero_one_count)
+            zero_one_count = 0
+
+            if len(binary_nodes) != 0:
+                current_node = binary_nodes[len(binary_nodes) - 1]
+                for i in range(0, zero_one_array.pop()):
+                    traverse_values.append(traverse_nodes.pop().data)
+                    counter += 1
+            else:
+                # prints final values for inorder traversal
+                while len(zero_one_array) != 0:
+                    for i in range(0, zero_one_array.pop()):
+                        traverse_values.append(traverse_nodes.pop().data)
+                        counter += 1
+        if counter == self.size + 1:
+            traversed = True
+    print("BST INORDER TRAVERSAL: {}".format(traverse_values))
+    return traverse_values
+```
+#### **Postorder**
+ With *postorder* traversal, nodes are visited in the following order:
+ 1. *Left subtree* - traversed in postorder fashion.
+ 2. *Right subtree* - traversed in an postorder fashion.
+ 3. *Root*
