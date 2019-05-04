@@ -11,7 +11,7 @@ class Stack:
         """Adds an element to the top of the stack and prints the stack.
 
         args:
-            element - The element to be added to stack
+        element - the element to be added to the stack
         """
         self.stack.append(element)
         self.print()
@@ -19,7 +19,8 @@ class Stack:
     def pop(self):
         """Returns and removes the element at the top of the stack and prints stack.
 
-        returns: The element at the top of the stack"""
+        returns: the element at the top of the stack
+        """
         rear = len(self.stack) - 1
         if not self.is_empty():
             result = self.stack[rear]
@@ -31,7 +32,7 @@ class Stack:
     def is_empty(self):
         """Determines whether stack is empty.
 
-        returns: True if stack is empty, false if it is not
+        returns: true if stack is empty, false if it is not
         """
         if len(self.stack) == 0:
             print("THIS STACK IS EMPTY")
@@ -46,7 +47,7 @@ class Stack:
     def size(self):
         """Returns the number of element in the stack.
 
-        returns: The number of elements in stack, or 0 if stack is empty.
+        returns: the number of elements in stack, or 0 if stack is empty
         """
         if self.is_empty():
             return 0
@@ -81,7 +82,8 @@ class Queue:
     def is_empty(self):
         """Determines whether the queue is empty (0 elements).
 
-        returns: True if queue has elements, false otherwise"""
+        returns: true if queue has elements, false otherwise
+        """
         if len(self.queue) == 0:
             return True
         else:
@@ -90,12 +92,12 @@ class Queue:
     def size(self):
         """Returns the number of elements in the queue.
 
-        returns: The number of elements in the queue
+        returns: the number of elements in the queue
         """
         return len(self.queue)
 
     def print(self):
-        """Displays the queue to the user"""
+        """Displays the queue to the user."""
         print("QUEUE: {}".format(self.queue))
 
 # ------------------------------------------ LINKEDLIST -----------------------------------------------------
@@ -117,7 +119,8 @@ class LinkedList:
         """Adds an element to the linkedlist.
 
         args:
-        element - the element to be added to linkedlist"""
+        element - the element to be added to linkedlist
+        """
         # adding first element to the list
         if self.head.data is None:
             self.head.data = element
@@ -136,6 +139,9 @@ class LinkedList:
 
     def get(self, index):
         """Returns the element of linkedlist at the specified index.
+
+        args:
+        index - the index of the element to be found
 
         returns: element at specified index, or null if list empty or index is invalid
         """
@@ -193,6 +199,9 @@ class LinkedList:
     def search(self, element):
         """Searches for specified element in linkedlist.
 
+        args:
+        element - the element to be found
+
         returns: the index of first element that matches search,
         or null if element not found
         """
@@ -214,6 +223,9 @@ class LinkedList:
 
     def _is_index_valid(self, index):
         """Checks whether an index is valid.
+
+        args:
+        index - the index value to be validated
 
         returns: true if index valid, false otherwise
         """
@@ -354,7 +366,7 @@ class BinarySearchTree:
                 traverse_values.append(current_node.data)
                 counter += 1
                 if len(binary_nodes) != 0:
-                    current_node = binary_nodes[len(binary_nodes) - 1]
+                    current_node = binary_nodes[-1]
             if counter == self.size + 1:
                 traversed = True
         print("BST PREORDER TRAVERSAL: {}".format(traverse_values))
@@ -363,21 +375,21 @@ class BinarySearchTree:
     def inorder_traversal(self):
         """Traverses the BST in inorder fashion(left, root, right).
 
-        returns: a list of inorder traversal
+        returns: a list of values from inorder traversal
         """
         current_node = self.root
         traverse_values = []  # the values that are read from the traversal
         binary_nodes = []  # 'binary_nodes' are nodes with 2 children
-        zero_one_count = 0  # counts the nodes which only have one or no children
-        zero_one_array = []  # stores 'zero_one_count' values
-        traverse_nodes = []  # stores the traversed nodes
+        pop_counter = 0  # counts the nodes which only have one or no children (to be popped)
+        pop_counter_array = []  # stores 'pop_counter' values
+        traversed_nodes = []  # stores the traversed nodes
         traversed = False
         counter = 0
         while not traversed:
             if current_node.left_child is not None and current_node.right_child is not None:
-                if zero_one_count != 0:
-                    zero_one_array.append(zero_one_count)
-                    zero_one_count = 0
+                if pop_counter != 0:
+                    pop_counter_array.append(pop_counter)
+                    pop_counter = 0
 
                 if current_node not in binary_nodes:
                     binary_nodes.append(current_node)
@@ -389,35 +401,94 @@ class BinarySearchTree:
                     binary_nodes.pop()
 
             elif current_node.left_child is not None and current_node.right_child is None:
-                traverse_nodes.append(current_node)
-                zero_one_count += 1
+                traversed_nodes.append(current_node)
+                pop_counter += 1
                 current_node = current_node.left_child
 
             elif current_node.left_child is None and current_node.right_child is not None:
-                traverse_nodes.append(current_node)
-                zero_one_count += 1
+                traversed_nodes.append(current_node)
+                pop_counter += 1
                 current_node = current_node.right_child
 
             elif current_node.left_child is None and current_node.right_child is None:
-                traverse_nodes.append(current_node)
-                zero_one_count += 1
-                zero_one_array.append(zero_one_count)
-                zero_one_count = 0
+                traversed_nodes.append(current_node)
+                pop_counter += 1
+                pop_counter_array.append(pop_counter)
+                pop_counter = 0
 
                 if len(binary_nodes) != 0:
-                    current_node = binary_nodes[len(binary_nodes) - 1]
-                    for i in range(0, zero_one_array.pop()):
-                        traverse_values.append(traverse_nodes.pop().data)
+                    current_node = binary_nodes[-1]
+                    for i in range(0, pop_counter_array.pop()):
+                        traverse_values.append(traversed_nodes.pop().data)
                         counter += 1
                 else:
                     # prints final values for inorder traversal
-                    while len(zero_one_array) != 0:
-                        for i in range(0, zero_one_array.pop()):
-                            traverse_values.append(traverse_nodes.pop().data)
+                    while len(pop_counter_array) != 0:
+                        for i in range(0, pop_counter_array.pop()):
+                            traverse_values.append(traversed_nodes.pop().data)
                             counter += 1
             if counter == self.size + 1:
                 traversed = True
         print("BST INORDER TRAVERSAL: {}".format(traverse_values))
+        return traverse_values
+
+    def postorder_traversal(self):
+        """Traverses Binary Search Tree in postorder fashion.
+
+        returns: a list of values form postorder traversal
+        """
+        current_node = self.root
+        traverse_values = []  # the values that are read from the traversal
+        binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+        pop_counter = 0  # counts number of subtree nodes to be popped from traversed_nodes
+        pop_counter_array = []
+        traversed_nodes = []
+        traversed = False
+        counter = 0
+        while not traversed:
+            if current_node.left_child is not None and current_node.right_child is not None:
+                if pop_counter != 0:
+                    pop_counter_array.append(pop_counter)
+                    pop_counter = 0
+
+                if current_node not in binary_nodes:
+                    binary_nodes.append(current_node)
+                    current_node = current_node.left_child
+                else:
+                    traversed_nodes.append(current_node)
+                    pop_counter += 1
+                    current_node = current_node.right_child
+                    binary_nodes.pop()
+
+            elif current_node.left_child is not None and current_node.right_child is None:
+                traversed_nodes.append(current_node)
+                pop_counter += 1
+                current_node = current_node.left_child
+
+            elif current_node.left_child is None and current_node.right_child is not None:
+                traversed_nodes.append(current_node)
+                pop_counter += 1
+                current_node = current_node.right_child
+
+            elif current_node.left_child is None and current_node.right_child is None:
+                traversed_nodes.append(current_node)
+                pop_counter += 1
+                pop_counter_array.append(pop_counter)
+                pop_counter = 0
+
+                if len(binary_nodes) != 0:
+                    current_node = binary_nodes[-1]
+                    for i in range(0, pop_counter_array.pop()):
+                        traverse_values.append(traversed_nodes.pop().data)
+                        counter += 1
+                else:
+                    while len(pop_counter_array) != 0:
+                        for i in range(0, pop_counter_array.pop()):
+                            traverse_values.append(traversed_nodes.pop().data)
+                            counter += 1
+            if counter == self.size + 1:
+                traversed = True
+        print("BST POSTORDER TRAVERSAL: {}".format(traverse_values))
         return traverse_values
 
     def size(self):
@@ -433,7 +504,7 @@ class BinarySearchTree:
         """Checks whether user input is a number.
 
         args:
-        data -- the user input to be validated
+        data - the user input to be validated
         returns: true if user input is valid (a number), false otherwise
         """
         if type(data) in (int, float):
@@ -442,3 +513,8 @@ class BinarySearchTree:
             print("BST ERROR: Input '{}' invalid. Input must be numerical.".format(data))
             return False
 
+values = [10, 65, -3.14, 12, 43, 256]  # root value 20
+t = BinarySearchTree(20)
+for x in values:
+    t.insert(x)
+t.postorder_traversal()
