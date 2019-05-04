@@ -33,3 +33,16 @@ class Test(unittest.TestCase):
         self.assertEqual(self.bst_1.inorder_traversal(), expected_traversal_1)
         self.assertEqual(self.bst_2.inorder_traversal(), expected_traversal_2)
         self.assertEqual(bst_3.inorder_traversal(), expected_traversal_3)
+
+    def test_postorder_traversal(self):
+        """Tests postorder traversal for Binary Search Tree."""
+        expected_traversal_1 = [1, 6, 9, 8, 7, 14, 22, 20, 11, 10]
+        expected_traversal_2 = [-3.14, 12, 10, 43, 256, 65, 20]
+        expected_traversal_3 = [10, 30, 20, 150, 300, 200, 100]
+        bst_3 = BinarySearchTree(100)
+        values = [20, 200, 10, 30, 150, 300]
+        for x in values:
+            bst_3.insert(x)
+        self.assertEqual(self.bst_1.postorder_traversal(), expected_traversal_1)
+        self.assertEqual(self.bst_2.postorder_traversal(), expected_traversal_2)
+        self.assertEqual(bst_3.postorder_traversal(), expected_traversal_3)
