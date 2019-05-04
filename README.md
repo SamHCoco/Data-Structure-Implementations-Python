@@ -315,7 +315,7 @@ def preorder_traversal(self):
             traverse_values.append(current_node.data)
             counter += 1
             if len(binary_nodes) != 0:
-                current_node = binary_nodes[len(binary_nodes) - 1]
+                current_node = binary_nodes[-1]
         if counter == self.size + 1:
             traversed = True
     print("BST PREORDER TRAVERSAL: {}".format(traverse_values))
@@ -331,21 +331,21 @@ def preorder_traversal(self):
 def inorder_traversal(self):
     """Traverses the BST in inorder fashion(left, root, right).
 
-    returns: a list of inorder traversal
+    returns: a list of values from inorder traversal
     """
     current_node = self.root
     traverse_values = []  # the values that are read from the traversal
     binary_nodes = []  # 'binary_nodes' are nodes with 2 children
-    zero_one_count = 0  # counts the nodes which only have one or no children
-    zero_one_array = []  # stores 'zero_one_count' values
-    traverse_nodes = []  # stores the traversed nodes
+    pop_counter = 0  # counts the nodes which only have one or no children (to be popped)
+    pop_counter_array = []  # stores 'pop_counter' values
+    traversed_nodes = []  # stores the traversed nodes
     traversed = False
     counter = 0
     while not traversed:
         if current_node.left_child is not None and current_node.right_child is not None:
-            if zero_one_count != 0:
-                zero_one_array.append(zero_one_count)
-                zero_one_count = 0
+            if pop_counter != 0:
+                pop_counter_array.append(pop_counter)
+                pop_counter = 0
 
             if current_node not in binary_nodes:
                 binary_nodes.append(current_node)
@@ -357,31 +357,31 @@ def inorder_traversal(self):
                 binary_nodes.pop()
 
         elif current_node.left_child is not None and current_node.right_child is None:
-            traverse_nodes.append(current_node)
-            zero_one_count += 1
+            traversed_nodes.append(current_node)
+            pop_counter += 1
             current_node = current_node.left_child
 
         elif current_node.left_child is None and current_node.right_child is not None:
-            traverse_nodes.append(current_node)
-            zero_one_count += 1
+            traversed_nodes.append(current_node)
+            pop_counter += 1
             current_node = current_node.right_child
 
         elif current_node.left_child is None and current_node.right_child is None:
-            traverse_nodes.append(current_node)
-            zero_one_count += 1
-            zero_one_array.append(zero_one_count)
-            zero_one_count = 0
+            traversed_nodes.append(current_node)
+            pop_counter += 1
+            pop_counter_array.append(pop_counter)
+            pop_counter = 0
 
             if len(binary_nodes) != 0:
-                current_node = binary_nodes[len(binary_nodes) - 1]
-                for i in range(0, zero_one_array.pop()):
-                    traverse_values.append(traverse_nodes.pop().data)
+                current_node = binary_nodes[-1]
+                for i in range(0, pop_counter_array.pop()):
+                    traverse_values.append(traversed_nodes.pop().data)
                     counter += 1
             else:
                 # prints final values for inorder traversal
-                while len(zero_one_array) != 0:
-                    for i in range(0, zero_one_array.pop()):
-                        traverse_values.append(traverse_nodes.pop().data)
+                while len(pop_counter_array) != 0:
+                    for i in range(0, pop_counter_array.pop()):
+                        traverse_values.append(traversed_nodes.pop().data)
                         counter += 1
         if counter == self.size + 1:
             traversed = True
@@ -393,3 +393,64 @@ def inorder_traversal(self):
  1. *Left subtree* - traversed in postorder fashion.
  2. *Right subtree* - traversed in an postorder fashion.
  3. *Root*
+
+```Python
+def postorder_traversal(self):
+    """Traverses Binary Search Tree in postorder fashion.
+
+    returns: a list of values form postorder traversal
+    """
+    current_node = self.root
+    traverse_values = []  # the values that are read from the traversal
+    binary_nodes = []  # 'binary_nodes' are nodes with 2 children
+    pop_counter = 0  # counts number of subtree nodes to be popped from traversed_nodes
+    pop_counter_array = []
+    traversed_nodes = []
+    traversed = False
+    counter = 0
+    while not traversed:
+        if current_node.left_child is not None and current_node.right_child is not None:
+            if pop_counter != 0:
+                pop_counter_array.append(pop_counter)
+                pop_counter = 0
+
+            if current_node not in binary_nodes:
+                binary_nodes.append(current_node)
+                current_node = current_node.left_child
+            else:
+                traversed_nodes.append(current_node)
+                pop_counter += 1
+                current_node = current_node.right_child
+                binary_nodes.pop()
+
+        elif current_node.left_child is not None and current_node.right_child is None:
+            traversed_nodes.append(current_node)
+            pop_counter += 1
+            current_node = current_node.left_child
+
+        elif current_node.left_child is None and current_node.right_child is not None:
+            traversed_nodes.append(current_node)
+            pop_counter += 1
+            current_node = current_node.right_child
+
+        elif current_node.left_child is None and current_node.right_child is None:
+            traversed_nodes.append(current_node)
+            pop_counter += 1
+            pop_counter_array.append(pop_counter)
+            pop_counter = 0
+
+            if len(binary_nodes) != 0:
+                current_node = binary_nodes[-1]
+                for i in range(0, pop_counter_array.pop()):
+                    traverse_values.append(traversed_nodes.pop().data)
+                    counter += 1
+            else:
+                while len(pop_counter_array) != 0:
+                    for i in range(0, pop_counter_array.pop()):
+                        traverse_values.append(traversed_nodes.pop().data)
+                        counter += 1
+        if counter == self.size + 1:
+            traversed = True
+    print("BST POSTORDER TRAVERSAL: {}".format(traverse_values))
+    return traverse_values
+```
