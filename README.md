@@ -305,11 +305,11 @@ class BinarySearchTree:
 
 ### Time Complexity (Worst Case)
 * **Insert**:
- * **O(n)** - Insertion into a BST takes linear time in the worst case.
+  * **O(n)** - Insertion into a BST takes linear time in the worst case.
 * **Search**:
- * **O(n)** - Search into a BST takes linear time in the worst case.
+  * **O(n)** - Search into a BST takes linear time in the worst case.
 * **Delete**:
- * **O(n)** - Deletion of a node in a BST takes linear time in the worst case.
+  * **O(n)** - Deletion of a node in a BST takes linear time in the worst case.
 
  ## Binary Search Tree Traversal
  There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):
