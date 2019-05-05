@@ -212,7 +212,7 @@ LinkedLists are data structures made up of **nodes** which contain data and poin
  ```   
  ### Time Complexity (Worst Case)
 * **Access**:
-    * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
+    * **O(n)** - In the worst case, it takes linear time to access an arbitrary element of a linkedlist as the nodes must be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
 * **Insertion (add):**
    * **O(n)** -  Inserting an element into a linkedlist takes linear time in the time worst case. The insertion itself takes *O(1)* constant time but having to traverse nodes to access the node required to complete the insertion takes *O(n)* linear time.
 
@@ -222,55 +222,95 @@ LinkedLists are data structures made up of **nodes** which contain data and poin
   * Any node can either have **no children or up to a maximum of 2 children** (i.e. any given node can have 0, 1 or 2 children), with the top node being the **root node**.
   * The left subtree of any node must have values which are less than the value of that node, while the right subtree of the node has values which are greater. More simply, this means that **the left child of any node is always less than its parent and the right child greater than its parent**.  
 
-  Binary Search Trees have **2 basic methods**:
+  Binary Search Trees have **3 basic methods**:
   * **insert(value)**
   * **search(value)**
+  * **delete(value)**
 
 My implementation of a Binary Search Tree using a linked data structure approach:
 ```Python
 class BinarySearchTree:
 
-  class Node:
+    class Node:
 
-      def __init__(self, data=None):
-          self.left_child = None
-          self.data = data
-          self.right_child = None
+        def __init__(self, data=None):
+            self.left_child = None
+            self.data = data
+            self.right_child = None
 
-  def __init__(self, data):
-      # creates initial root node and sets root node value
-      if type(data) in (int, float):
-          self.root = self.Node(data)
-          self.size = 0
-      else:
-          print("BST INSERTION ERROR: {} is non-numeric".format(data))
+    def __init__(self, data):
+        # creates initial root node and sets root node value
+        if BinarySearchTree._is_valid_input(data):
+            self.root = self.Node(data)
+            self.size = 0
+        else:
+            print("BST INSERTION ERROR: {} is non-numeric".format(data))
 
-  def insert(self, data):
-      """Inserts data value into the Binary Search Tree.
+    def insert(self, data):
+        """Inserts data value into the Binary Search Tree.
 
-      args:
-      data - the number to be inserted into the tree
-      """
-      current_node = self.root
-      inserted = False
-      while not inserted:
-          if data > current_node.data and current_node.right_child is None:
-              current_node.right_child = self.Node(data)
-              inserted = True
-              self.size += 1
-          elif data < current_node.data and current_node.left_child is None:
-              current_node.left_child = self.Node(data)
-              inserted = True
-              self.size += 1
-          elif data == current_node.data and current_node.left_child is None:
-              current_node.left_child = self.Node(data)
-              inserted = True
-              self.size += 1
-          elif data > current_node.data and current_node.right_child is not None:
-              current_node = current_node.right_child
-          elif data < current_node.data and current_node.left_child is not None:
-              current_node = current_node.left_child
+        args:
+        data - the number to be inserted into the tree
+        """
+        if not BinarySearchTree._is_valid_input(data):
+            return None
+
+        current_node = self.root
+        inserted = False
+        while not inserted:
+            if data > current_node.data and current_node.right_child is None:
+                current_node.right_child = self.Node(data)
+                inserted = True
+                self.size += 1
+            elif data < current_node.data and current_node.left_child is None:
+                current_node.left_child = self.Node(data)
+                inserted = True
+                self.size += 1
+            elif data == current_node.data and current_node.left_child is None:
+                current_node.left_child = self.Node(data)
+                inserted = True
+                self.size += 1
+            elif data > current_node.data and current_node.right_child is not None:
+                current_node = current_node.right_child
+            elif data < current_node.data and current_node.left_child is not None:
+                current_node = current_node.left_child
+
+    def search(self, search_value):
+        """Searches for specified value in the Binary Search Tree.
+
+        args:
+        search_value - the value to be found in the Binary Search Tree
+
+        returns: true if the value found, false otherwise, or None if user input invalid
+        """
+        if not BinarySearchTree._is_valid_input(search_value):
+            return None
+
+        current_node = self.root
+        found = False
+        while not found:
+            if current_node.data == search_value:
+                found = True
+            elif search_value > current_node.data:
+                current_node = current_node.right_child
+            elif search_value < current_node.data:
+                current_node = current_node.left_child
+            if current_node is None:
+                print("'{}' not found in Binary Search Tree".format(search_value))
+                return False
+        print("'{}' found in Binary Search Tree".format(search_value))
+        return True
 ```
+*NOTE: Deletion method to be implemented*
+
+### Time Complexity (Worst Case)
+* **Insert**:
+ * **O(n)** - Insertion into a BST takes linear time in the worst case.
+* **Search**:
+ * **O(n)** - Search into a BST takes linear time in the worst case.
+* **Delete**:
+ * **O(n)** - Deletion of a node in a BST takes linear time in the worst case.
+
  ## Binary Search Tree Traversal
  There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):
  #### **Preorder**
