@@ -3,8 +3,28 @@
 
 
 class Stack:
+    """
+    This class implements the Stack Abstract Data Type.
+
+    Attributes
+    ----------
+    stack (list):  The stack data structure
+
+    Methods
+    -------
+    push(e): Adds element to stack
+
+    pop(): Removes and returns element at top of stack
+
+    size(): Returns size of stack
+
+    is_empty(): Returns true if stack empty, false otherwise
+
+    print(): Prints the stack
+    """
 
     def __init__(self):
+        """Stack constructor."""
         self.stack = []
 
     def push(self, element):
@@ -58,8 +78,28 @@ class Stack:
 
 
 class Queue:
+    """
+    This class implements the Queue Abstract Data Type.
+
+    Attributes
+    ----------
+    queue (list): The queue data structure
+
+    Methods
+    -------
+    enqueue(e): Adds an element to the rear of the queue
+
+    dequeue(): Returns and removes element at front of queue
+
+    is_empty(): Determines whether queue is empty
+
+    size(): Returns number of elements in queue
+
+    print(): Prints the queue
+    """
 
     def __init__(self):
+        """Queue constructor."""
         self.queue = []
 
     def enqueue(self, element):
@@ -104,14 +144,49 @@ class Queue:
 
 
 class LinkedList:
+    """
+    This class implements the singly LinkedList Abstract Data Type.
+
+    Attributes
+    ----------
+    head (Node): The head node of LinkedList
+    size (int): The size of the LinkedList
+
+    Methods
+    -------
+    add(e): Adds node containing element e to LinkedList
+
+    get(i): Returns value of node at index i in LinkedList
+
+    remove(i): Removes node at index i from LinkedList
+
+    search(e): Searches LinkedList for element e
+
+    is_empty(): Checks if the LinkedList is empty
+
+    __str__(): Prints the LinkedList
+    """
 
     class Node:
+        """This class implements a node.
+
+        Attributes
+        ----------
+        data: The data of the node
+        node: Pointer to the next node
+        """
 
         def __init__(self, data=None):
+            """Node constructor.
+
+            args:
+            data: The data of the node
+            """
             self.data = data
             self.node = None
 
     def __init__(self):
+        """LinkedList constructor."""
         self.head = self.Node()
         self.size = 0
 
@@ -141,7 +216,7 @@ class LinkedList:
         """Returns the element of linkedlist at the specified index.
 
         args:
-        index - the index of the element to be found
+        index (int) - the index of the element to be found
 
         returns: element at specified index, or null if list empty or index is invalid
         """
@@ -165,7 +240,7 @@ class LinkedList:
         """Removes an element of linkedlist at a selected index.
 
         args:
-        index - the position of the element to be removed
+        index (int) - the position of the element to be removed
         """
         if self.is_empty():
             print("Cannot remove index[{}]: LinkedList empty".format(index))
@@ -225,7 +300,7 @@ class LinkedList:
         """Checks whether an index is valid.
 
         args:
-        index - the index value to be validated
+        index (int) - the index value to be validated
 
         returns: true if index valid, false otherwise
         """
@@ -260,16 +335,47 @@ class LinkedList:
 
 
 class BinarySearchTree:
+    """This class implements the Binary Search Tree Abstract Data Type.
+
+    Attributes
+    ----------
+    data (float/int): The value of a node
+    left_child (Node): The left child of a node
+    right_child (Node): The right child of a node
+
+    Methods
+    -------
+    insert(number): Adds number to Binary Search Tree
+
+    search(number): Searches for number in Binary Search Tree
+
+    size(): Determines the number of nodes (size) of the Binary Search Tree.
+
+    preorder_traversal(): Preorder traverses Binary Search Tree and returns result
+
+    inorder_traversal(): Inorder traverses Binary Search Tree and returns result
+
+    postorder_traversal(): Postorder traverses Binary Search Tree and returns result
+    """
 
     class Node:
-
+        """This class implements a node for a BST."""
         def __init__(self, data=None):
+            """Node constructor.
+
+            args:
+            data (float/int) - the data of the node
+            """
             self.left_child = None
             self.data = data
             self.right_child = None
 
     def __init__(self, data):
-        # creates initial root node and sets root node value
+        """Binary Search Tree constructor.
+
+        args:
+        data (float/int) - root node value
+        """
         if BinarySearchTree._is_valid_input(data):
             self.root = self.Node(data)
             self.size = 0
@@ -505,6 +611,7 @@ class BinarySearchTree:
 
         args:
         data - the user input to be validated
+
         returns: true if user input is valid (a number), false otherwise
         """
         if type(data) in (int, float):
@@ -512,9 +619,3 @@ class BinarySearchTree:
         else:
             print("BST ERROR: Input '{}' invalid. Input must be numerical.".format(data))
             return False
-
-values = [10, 65, -3.14, 12, 43, 256]  # root value 20
-t = BinarySearchTree(20)
-for x in values:
-    t.insert(x)
-t.postorder_traversal()
